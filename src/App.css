@@ -1,0 +1,169 @@
+body {
+  background: #fdfdfc;
+}
+
+.flex{
+  display: flex;
+}
+.justify-content-between{
+  justify-content: space-between;
+}
+.items-center{
+  align-items: center;
+}
+.ml-4{
+  margin-left: 12px;
+}
+.uploads {
+  width: 200px;
+  height: 200px;
+  float: left;
+}
+
+#main {
+  position: absolute;
+  width: 150px;
+  height: 156px;
+  border: 4px dashed #ccc;
+  margin-top: 8px;
+}
+
+#main p {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 170px;
+  color: #000;
+  font-family: Arial;
+}
+
+#main input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+
+#main button {
+  margin: 0;
+  color: #000;
+  background: #16a085;
+  border: none;
+  width: 508px;
+  height: 35px;
+  margin-top: -20px;
+  margin-left: -4px;
+  border-radius: 4px;
+  border-bottom: 4px solid #117a60;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+#main button:hover {
+  background: #149174;
+  color: #0c5645;
+}
+
+#main button:active {
+  border: 0;
+}
+
+.image-order {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon {
+  cursor: pointer;
+}
+
+.wrapper {
+  margin: 10% auto;
+  max-width: 1100px;
+  align-items: center;
+  justify-content: center;
+
+}
+
+div.gallery {
+  margin: 5px;
+  border: 3px solid #ddd;
+  float: left;
+  width: 200px;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.gallery-image {
+  opacity: 1;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+div.gallery:hover .gallery-image {
+  opacity: 0.3;
+}
+
+div.gallery:hover .check-box-section {
+  opacity: 1;
+
+}
+
+div.gallery img {
+  width: 100%;
+  height: 160px;
+  border-radius: 10px
+}
+
+div.gallery img {
+  width: 100%;
+  height: 160px;
+  border-radius: 10px
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+.error-msg {
+  color: salmon;
+}
+
+.check-box-section {
+  position: absolute;
+  top: 10px;
+  opacity: 0;
+  left: 10px;
+  transition: .5s ease;
+  transform: translate(0%, 0%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.check-box-section>input {
+  width: 20px;
+  height: 20px;
+}
+.delete-button{
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
+
+.multi_items_select_check_box{
+  width: 25px;
+  accent-color: green;
+  height: 25px;
+}
+.opaciti-zero-3{
+  opacity: 0.3;
+}
+.opaciti-zero-1{
+  opacity: 1 !important;
+}
