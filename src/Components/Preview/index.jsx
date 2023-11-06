@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Media } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 class Preview extends React.Component {
   constructor(props) {
@@ -30,20 +27,16 @@ class Preview extends React.Component {
     return null;
   }
 
-  deleteImage = () => {
-    this.props.deleteImage()
-    this.setState({ deleteImageIds:null })
-  };
+
 
   deleteImageSelect = (id, e) => {
-    const { previewImages, deleteImageIds } = this.state;
+    const { previewImages } = this.state;
     if (previewImages.length > 0) {
       let new_array = previewImages.map((item, index) => {
         if (item.id == id) {
 
           item.isChecked = e.target.checked;
-          this.setState({ deleteImageIds: e.target.checked ? deleteImageIds + 1 : deleteImageIds - 1 })
-        
+          this.props.imageSelect(e.target.checked)
         }
       })
 
@@ -104,25 +97,7 @@ class Preview extends React.Component {
 
     return (
       <Fragment>
-        {this.state.deleteImageIds > 0 ?
-          <div className="flex justify-content-between items-center">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                className="multi_items_select_check_box"
-                id={'delete_id'}
-                checked={this.state.deleteImageIds > 0 ? true : false}
-                name={'image_delete'}
-                readOnly
-              />
-              <h3 className="ml-4">{this.state.deleteImageIds} Files Selected</h3>
-            </div>
-            <a onClick={() => this.deleteImage()} className="delete-button">Delete File</a>
-          </div>
-          :
-          <h3>Gallery</h3>
-        }
-        <hr />
+
         {previewImages.length > 0 &&
           previewImages.map((element, index) => {
             return (
@@ -134,13 +109,11 @@ class Preview extends React.Component {
                 onDragOver={(e) => this.handleOver(e)}
                 onDragStart={(e) => this.handleDrag(e)}
                 onDrop={(e) => this.handleDrop(e)}
-                style={index == 0 ? full_image_style : {}}
               >
                 <img
                   className={`gallery-image ${element.isChecked ? 'opaciti-zero-3' : ''}`}
                   src={element.file}
                   alt={element.name}
-                  style={index == 0 ? full_image_img : { height: '185px' }}
                 />
 
                 <div className={`check-box-section ${element.isChecked ? 'opaciti-zero-1' : ''}`}>
@@ -163,8 +136,7 @@ class Preview extends React.Component {
   }
 
   render() {
-    const { previewImages } = this.state;
-    return <div>{this.renderPreview()}</div>;
+    return <>{this.renderPreview()}</>;
   }
 }
 
