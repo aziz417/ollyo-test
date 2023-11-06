@@ -8,30 +8,36 @@ class App extends Component {
     super(props);
     this.state = {
       imagesPreviewUrls: [],
-      deleteImageIds: null,
+      deleteImageCount: null,
     };
   }
 
+  // valid image list receive and spread all old and new image
   imagesPreviewUrls = (result) => {
     this.setState({
       imagesPreviewUrls: [...this.state.imagesPreviewUrls, result],
     });
   };
 
+  //when click delete button remove all checked image
+  //from imagesPreviewUrls state and deleteImageCount state update by null
   deleteImage = () => {
     const { imagesPreviewUrls } = this.state;
     if (imagesPreviewUrls.length > 0) {
       const filterImages = imagesPreviewUrls.filter((image) => image?.isChecked == false);
       this.setState({
         imagesPreviewUrls: filterImages,
-        deleteImageIds: null,
+        deleteImageCount: null,
       });
     }
   };
 
+  //checked image count manage 
   imageSelect = (isChecked) => {
     this.setState({
-      deleteImageIds: isChecked ? this.state.deleteImageIds + 1 : this.state.deleteImageIds - 1,
+      //when checked any image count value 1 increment 
+      //when un-checked any image count value 1 dicrement 
+      deleteImageCount: isChecked ? this.state.deleteImageCount + 1 : this.state.deleteImageCount - 1,
     });
   };
 
@@ -41,28 +47,36 @@ class App extends Component {
     return (
       <>
         <div className="wrapper">
-          {
-            this.state.deleteImageIds > 0 ?
-              <div className="flex justify-content-between items-center">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="multi_items_select_check_box"
-                    id={'delete_id'}
-                    checked={this.state.deleteImageIds > 0 ? true : false}
-                    name={'image_delete'}
-                    readOnly
-                  />
-                  <h3 className="ml-4">{this.state.deleteImageIds} Files Selected</h3>
+          {/* when checken any image for delete then show delete button and show checked image count number */}
+          <div style={{ height: '60px' }} >
+            {
+              this.state.deleteImageCount > 0 ?
+                <div className="flex justify-content-between items-center">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="multi_items_select_check_box"
+                      id={'delete_id'}
+                      checked={this.state.deleteImageCount > 0 ? true : false}
+                      name={'image_delete'}
+                      readOnly
+                    />
+                    <h3 className="ml-4">{`${this.state.deleteImageCount} File${this.state.deleteImageCount > 1 ? 's' : ''} Selected` } </h3>
+                  </div>
+                  {/* multiple image delete button */}
+                  <a onClick={() => this.deleteImage()} className="delete-button">{`Delete File${this.state.deleteImageCount > 1 ? 's' : ''}`}</a>
                 </div>
-                <a onClick={() => this.deleteImage()} className="delete-button">Delete File</a>
-              </div>
-              :
-              <h3>Image Gallery</h3>
-          }
+                :
+                <div className="flex justify-content-between items-center">
+                  <h3>Image Gallery</h3>
+                </div>
+            }
+          </div>
           <hr />
 
           <div className="grid">
+            {/* call image preview component */}
+            {/* pass two props, 1 image list state 2 image checked count manage method*/}
             {imagesPreviewUrls.length > 0 ? (
               <Preview
                 imagesPreviewUrls={imagesPreviewUrls}
@@ -70,6 +84,7 @@ class App extends Component {
               />
             ) : null}
 
+            {/* call image uploader component pass 1 props method that give valid image list*/}
             <Uploader imagesPreviewUrls={this.imagesPreviewUrls} />
           </div>
 

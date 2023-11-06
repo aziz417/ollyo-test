@@ -7,7 +7,6 @@ class Preview extends React.Component {
       previewImages: [],
       dragId: "",
       isChecked: false,
-      deleteImageIds: null,
     };
   }
 
@@ -28,20 +27,19 @@ class Preview extends React.Component {
   }
 
 
-
+  // multiple deleteable image select
   deleteImageSelect = (id, e) => {
     const { previewImages } = this.state;
     if (previewImages.length > 0) {
-      let new_array = previewImages.map((item, index) => {
+      let new_array = previewImages.map((item) => {
         if (item.id == id) {
-
+          // set image checked true false and checked list count props method call
           item.isChecked = e.target.checked;
           this.props.imageSelect(e.target.checked)
         }
       })
 
       this.setState({ previewImages: new_array })
-
     }
   };
 
@@ -86,15 +84,6 @@ class Preview extends React.Component {
       });
     }
 
-    const full_image_style = {
-      width: '425px',
-      height: '390px'
-    }
-
-    const full_image_img = {
-      height: '100%'
-    }
-
     return (
       <Fragment>
 
@@ -110,12 +99,13 @@ class Preview extends React.Component {
                 onDragStart={(e) => this.handleDrag(e)}
                 onDrop={(e) => this.handleDrop(e)}
               >
+                {/* when checkout per item opacitiy manage */}
                 <img
                   className={`gallery-image ${element.isChecked ? 'opaciti-zero-3' : ''}`}
                   src={element.file}
                   alt={element.name}
                 />
-
+                {/* when checkout per item opacitiy manage */}
                 <div className={`check-box-section ${element.isChecked ? 'opaciti-zero-1' : ''}`}>
                   <input
                     type="checkbox"
