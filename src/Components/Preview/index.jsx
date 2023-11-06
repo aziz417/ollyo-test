@@ -10,7 +10,7 @@ class Preview extends React.Component {
       previewImages: [],
       dragId: "",
       isChecked: false,
-      deleteImageIds: [],
+      deleteImageIds: null,
     };
   }
 
@@ -31,40 +31,25 @@ class Preview extends React.Component {
   }
 
   deleteImage = () => {
-    this.props.deleteImage(this.state.deleteImageIds)
-    this.setState({
-      isChecked: !this.isChecked,
-    });
-    this.setState({
-      deleteImageIds: [],
-    });
+    this.props.deleteImage()
+    this.setState({ deleteImageIds:null })
   };
 
   deleteImageSelect = (id, e) => {
-    const { previewImages } = this.state;
+    const { previewImages, deleteImageIds } = this.state;
     if (previewImages.length > 0) {
       let new_array = previewImages.map((item, index) => {
         if (item.id == id) {
+
           item.isChecked = e.target.checked;
+          this.setState({ deleteImageIds: e.target.checked ? deleteImageIds + 1 : deleteImageIds - 1 })
+        
         }
       })
 
       this.setState({ previewImages: new_array })
 
     }
-
-    //   if (!this.state.deleteImageIds.includes(id)) {
-
-    //     this.setState({
-    //       deleteImageIds: [...this.state.deleteImageIds, id],
-    //     });
-
-    //   } else {
-
-    //     let ids_array = this.state.deleteImageIds.indexOf(id);
-    //     this.state.deleteImageIds.splice(ids_array, 1)
-
-    //   }
   };
 
 
@@ -109,8 +94,8 @@ class Preview extends React.Component {
     }
 
     const full_image_style = {
-      width: '415px',
-      height: '352px'
+      width: '425px',
+      height: '390px'
     }
 
     const full_image_img = {
@@ -119,19 +104,18 @@ class Preview extends React.Component {
 
     return (
       <Fragment>
-        {this.state.deleteImageIds?.length > 0 ?
+        {this.state.deleteImageIds > 0 ?
           <div className="flex justify-content-between items-center">
             <div className="flex items-center">
               <input
                 type="checkbox"
                 className="multi_items_select_check_box"
                 id={'delete_id'}
-                checked={this.state.deleteImageIds?.length > 0 ? true : false}
-                // value={props.value}
+                checked={this.state.deleteImageIds > 0 ? true : false}
                 name={'image_delete'}
                 readOnly
               />
-              <h3 className="ml-4">{this.state.deleteImageIds?.length} Files Selected</h3>
+              <h3 className="ml-4">{this.state.deleteImageIds} Files Selected</h3>
             </div>
             <a onClick={() => this.deleteImage()} className="delete-button">Delete File</a>
           </div>
@@ -153,23 +137,19 @@ class Preview extends React.Component {
                 style={index == 0 ? full_image_style : {}}
               >
                 <img
-                  className={`gallery-image ${this.state.deleteImageIds?.includes(element.id) ? 'opaciti-zero-3' : ''}`}
+                  className={`gallery-image ${element.isChecked ? 'opaciti-zero-3' : ''}`}
                   src={element.file}
                   alt={element.name}
-                  style={index == 0 ? full_image_img : { height: '165px' }}
+                  style={index == 0 ? full_image_img : { height: '185px' }}
                 />
 
-                <div className={`check-box-section ${this.state.deleteImageIds?.includes(element.id) ? 'opaciti-zero-1' : ''}`}>
+                <div className={`check-box-section ${element.isChecked ? 'opaciti-zero-1' : ''}`}>
                   <input
                     type="checkbox"
                     id={element.id}
                     checked={element.isChecked}
-                    // value={props.value}
                     name={'image'}
                     onChange={(e) => {
-                      // this.setState({
-                      //   isChecked: !this.isChecked,
-                      // });
                       this.deleteImageSelect(element.id, e)
                     }}
                   />
@@ -184,7 +164,7 @@ class Preview extends React.Component {
 
   render() {
     const { previewImages } = this.state;
-    return <div className="wrapper">{this.renderPreview()}</div>;
+    return <div>{this.renderPreview()}</div>;
   }
 }
 

@@ -17,10 +17,10 @@ class App extends Component {
     });
   };
 
-  deleteImage = (ids) => {
+  deleteImage = () => {
     const { imagesPreviewUrls } = this.state;
     if (imagesPreviewUrls.length > 0) {
-      const filterImages = imagesPreviewUrls.filter((image) => !ids.includes(image.id));
+      const filterImages = imagesPreviewUrls.filter((image) => image?.isChecked == false);
       this.setState({
         imagesPreviewUrls: filterImages,
       });
@@ -31,7 +31,7 @@ class App extends Component {
     const { imagesPreviewUrls } = this.state;
     // console.log(imagesPreviewUrls);
     return (
-      <div>
+      <div className="wrapper">
        
         {imagesPreviewUrls.length > 0 ? (
           <Preview
