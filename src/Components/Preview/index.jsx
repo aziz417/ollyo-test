@@ -31,39 +31,42 @@ class Preview extends React.Component {
   }
 
   deleteImage = () => {
-    if (this.state.deleteImageIds?.length > 0) {
-
-      this.state.deleteImageIds.map((id) => (
-        this.props.deleteImage(id)
-      ))
-
-      this.setState({
-        deleteImageIds: [],
-      });
-    }
-
-
+    this.props.deleteImage(this.state.deleteImageIds)
+    this.setState({
+      isChecked: !this.isChecked,
+    });
+    this.setState({
+      deleteImageIds: [],
+    });
   };
 
-  deleteImageSelect = (id) => {
-    if (!this.state.deleteImageIds.includes(id)) {
-      this.setState({
-        deleteImageIds: [...this.state.deleteImageIds, id],
-      });
-    } else {
-      const index = this.state.deleteImageIds.indexOf(id);
-      console.log(this.state.deleteImageIds, index);
-      if (index > -1) { // only splice array when item is found
-        this.setState({
-          deleteImageIds: [...this.state.deleteImageIds.splice(index, 1)],
-        });
-      }
+  deleteImageSelect = (id, e) => {
+    const { previewImages } = this.state;
+    if (previewImages.length > 0) {
+      let new_array = previewImages.map((item, index) => {
+        if (item.id == id) {
+          item.isChecked = e.target.checked;
+        }
+      })
+
+      this.setState({ previewImages: new_array })
 
     }
 
+    //   if (!this.state.deleteImageIds.includes(id)) {
 
+    //     this.setState({
+    //       deleteImageIds: [...this.state.deleteImageIds, id],
+    //     });
 
+    //   } else {
+
+    //     let ids_array = this.state.deleteImageIds.indexOf(id);
+    //     this.state.deleteImageIds.splice(ids_array, 1)
+
+    //   }
   };
+
 
   handleOver = (ev) => {
     ev.preventDefault();
@@ -160,14 +163,14 @@ class Preview extends React.Component {
                   <input
                     type="checkbox"
                     id={element.id}
-                    checked={this.isChecked}
+                    checked={element.isChecked}
                     // value={props.value}
                     name={'image'}
                     onChange={(e) => {
-                      this.setState({
-                        isChecked: !this.isChecked,
-                      });
-                      this.deleteImageSelect(element.id)
+                      // this.setState({
+                      //   isChecked: !this.isChecked,
+                      // });
+                      this.deleteImageSelect(element.id, e)
                     }}
                   />
                 </div>

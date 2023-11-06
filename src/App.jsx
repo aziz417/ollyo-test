@@ -17,10 +17,10 @@ class App extends Component {
     });
   };
 
-  deleteImage = (id) => {
+  deleteImage = (ids) => {
     const { imagesPreviewUrls } = this.state;
     if (imagesPreviewUrls.length > 0) {
-      const filterImages = imagesPreviewUrls.filter((image) => image.id !== id);
+      const filterImages = imagesPreviewUrls.filter((image) => !ids.includes(image.id));
       this.setState({
         imagesPreviewUrls: filterImages,
       });

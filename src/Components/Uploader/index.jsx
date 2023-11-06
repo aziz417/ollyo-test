@@ -19,6 +19,7 @@ class Uploader extends React.Component {
             file: reader.result,
             size: file.size,
             name: file.name,
+            isChecked: false,
           };
           this.setState({ imageValidationError: null });
           imagesPreviewUrls(result);
